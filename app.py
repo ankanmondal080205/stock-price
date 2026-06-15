@@ -126,3 +126,5 @@ col3.metric("Expected Change",  f"${change:.2f}", f"{change_pct:.2f}%")
 # ── Raw Data ──────────────────────────────────────────────────────
 with st.expander("📄 View Raw Data"):
     st.dataframe(df.tail(20))
+st.write("Data shape:", data.shape)
+st.write("Columns:", df[features].columns.tolist())
