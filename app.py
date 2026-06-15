@@ -35,11 +35,9 @@ model, scaler = load_artifacts()
 @st.cache_data
 def load_data(ticker, start, end):
     df = yf.download(ticker, start=start, end=end)
-    
-    # Fix MultiIndex columns
     df.columns = df.columns.get_level_values(0)
-    
-    # Compute indicators
+
+    # indicators
     df['RSI_14']      = RSIIndicator(df['Close'], window=14).rsi()
     macd              = MACD(df['Close'])
     df['MACD']        = macd.macd()
@@ -50,17 +48,12 @@ def load_data(ticker, start, end):
     df.dropna(inplace=True)
     return df
 
-df = load_data(ticker, str(start), str(end))
+df = load_data(ticker, start, end)
 
-# Explicitly select features in exact same order as training
-features = ['Close', 'High', 'Low', 'Open', 'Volume', 
-            'RSI_14', 'MACD', 'MACD_Signal', 'BB_High', 'BB_Low']
-
-# Verify shape before scaling
-data = df[features].values
-st.write(f"Feature shape: {data.shape}")  # should be (n, 10)
-
-scaled = scaler.transform(data)
+# ── Feature Prep ──────────────────────────────────────────────────
+features = ['Close','High','Low','Open','Volume','RSI_14','MACD','MACD_Signal','BB_High','BB_Low']
+data     = df[features].values
+scaled   = scaler.transform(data)
 
 # ── Create Sequences ──────────────────────────────────────────────
 def create_sequences(data, lookback):
@@ -126,5 +119,3 @@ col3.metric("Expected Change",  f"${change:.2f}", f"{change_pct:.2f}%")
 # ── Raw Data ──────────────────────────────────────────────────────
 with st.expander("📄 View Raw Data"):
     st.dataframe(df.tail(20))
-st.write("Data shape:", data.shape)
-st.write("Columns:", df[features].columns.tolist())
