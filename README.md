@@ -6,7 +6,7 @@ A deep learning project that predicts Apple (AAPL) stock prices using Recurrent 
 
 ## 🚀 Live Demo
 
-[👉 Click here to open the app]([https://your-streamlit-app-link.streamlit.app](https://stock-price-cmcghvsukcm9cryvmhnhjj.streamlit.app/))
+[👉 Click here to open the app]([[https://your-streamlit-app-link.streamlit.app](https://stock-price-cmcghvsukcm9cryvmhnhjj.streamlit.app/)]
 
 ---
 
